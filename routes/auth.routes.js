@@ -27,9 +27,7 @@ router.post("/signup", (req, res, next) => {
 
   let regex = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/;
   if (!regex.test(password)) {
-    res
-      .status(500)
-      .render('form/signup', { msg: 'Password needs to have at least 6 chars and must contain at least one number, one lowercase and one uppercase letter.' });
+    res.render('form/signup', { msg: 'Password needs to have at least 6 chars and must contain at least one number, one lowercase and one uppercase letter.' });
     return;
   }
 
@@ -39,7 +37,7 @@ router.post("/signup", (req, res, next) => {
       //console.log(hash)
       UserNameModel.create({username, password: hash})
       .then(() => {
-         res.redirect('/profile')
+         res.redirect('/')
       })
       .catch(() => {
         next(err)
@@ -48,7 +46,7 @@ router.post("/signup", (req, res, next) => {
 });
 // Handle POST requests to /signin
 router.post("/login", (req, res, next) => {
- const {userName, password} = req.body
+ const {username, password} = req.body
 
  UserNameModel.findOne({username})
    .then((result) => {
@@ -85,8 +83,8 @@ const checkUserName =(req, res, next) =>{
   }
   
   router.get('/profile', checkUserName, (req, res, next) => {
-    let uname = req.session.userName.uname
-    res.render('profile.hbs', {uname})
+    let username = req.session.userName.username
+    res.render('profile.hbs', {username})
   })
 
   router.get('/logout', (req, res) => {
@@ -96,18 +94,10 @@ const checkUserName =(req, res, next) =>{
   
 
   router.get('/main', (req, res)=>{
-    if(!req.session.User){
-    res.render('form/login', {msg : 'cant see the images!'});
-  }else {
-      res.render('main');
-  }
+    res.render('main.hbs')
 });
 router.get('/private', (req, res)=>{
-  if(!req.session.User){
-  res.render('form/login', {msg : 'cant see the images!'});
-}else {
-    res.render('private');
-}
+  res.render('private.hbs')
 });
 
 

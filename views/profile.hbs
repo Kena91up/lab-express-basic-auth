@@ -1,8 +1,15 @@
-{{#if uname}}
-    <h2>Welcome, {{ uname.username }}!</h2>
+{{#if username}}
+    <h2>Welcome, {{ username.username }}!</h2>
+    
     <p>This is your profile page my friend!</p>
     <button>
         <a href="/Profile">Reload the page</a>
+    </button>
+     <button>
+        <a href="/main">Main page</a>
+    </button>
+     <button>
+        <a href="/private">Private page</a>
     </button>
 {{else}}
     <p>Still no logged in user, sorry!</p>
